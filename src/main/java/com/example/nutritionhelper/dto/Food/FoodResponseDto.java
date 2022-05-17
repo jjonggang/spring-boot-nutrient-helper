@@ -4,6 +4,7 @@ import com.example.nutritionhelper.domain.food.food.Food;
 import com.example.nutritionhelper.domain.food.foodNutrientAmount.FoodNutrientAmount;
 import com.example.nutritionhelper.domain.supplement.SupplementNutrientAmount.SupplementNutrientAmount;
 import com.example.nutritionhelper.domain.supplement.supplement.Supplement;
+import com.example.nutritionhelper.dto.Supplement.SupplementNutrientAmountResponseDto;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -26,7 +28,7 @@ public class FoodResponseDto {
     private String link;
     private String image;
     private String amount;
-    private List<FoodNutrientAmount> nutrientAmounts = new ArrayList<>();
+    private List<FoodNutrientAmountResponseDto> nutrientAmounts = new ArrayList<>();
 
     public FoodResponseDto(Food food){
         this.foodId = food.getFoodId();
@@ -38,6 +40,8 @@ public class FoodResponseDto {
         this.image = food.getImage();
         this.amount = food.getAmount();
 
-        this.nutrientAmounts = food.getNutrientAmounts();
+        this.nutrientAmounts = food.getNutrientAmounts().stream()
+                .map(FoodNutrientAmountResponseDto::new)
+                .collect(Collectors.toList());
     }
 }

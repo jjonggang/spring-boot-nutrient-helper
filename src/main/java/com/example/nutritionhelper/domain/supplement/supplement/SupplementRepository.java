@@ -9,5 +9,5 @@ import java.util.List;
 public interface SupplementRepository extends JpaRepository<Supplement, Long> {
     List<Supplement> findAllByOrderBySupplementIdDesc(Pageable pageable);
 
-    List<Supplement> findByNameContaining(String keyword);
+    List<Supplement> findByNameContains(String keyword);
 }

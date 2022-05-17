@@ -9,5 +9,6 @@ import java.util.List;
 public interface FoodRepository extends JpaRepository<Food, Long> {
     List<Food> findAllByOrderByFoodIdDesc(Pageable pageable);
 
-    List<Food> findByNameContaining(String keyword);
+    List<Food> findByNameContainingIgnoreCase(String keyword);
+    //findByContentContainingIgnoreCaseOrTitleContainingIgnoreCase
 }

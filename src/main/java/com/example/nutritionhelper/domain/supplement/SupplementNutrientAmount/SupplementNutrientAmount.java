@@ -6,12 +6,14 @@ import com.example.nutritionhelper.domain.supplement.supplementBrand.SupplementB
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Builder
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class SupplementNutrientAmount {
@@ -21,9 +23,11 @@ public class SupplementNutrientAmount {
     private Long amountId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="supplement_id")
+    @JsonProperty("supplement_id")
     private Supplement supplement;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nutrient_name")
+    @JsonProperty("nutrient_name")
     private Nutrient nutrient;
     @JsonProperty("nutrient_amount")
     private Float nutrientAmount;

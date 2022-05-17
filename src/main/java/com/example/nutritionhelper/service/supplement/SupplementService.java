@@ -34,18 +34,18 @@ public class SupplementService {
         }
     }
 
-    public ResponsePageDto<SupplementResponseDto> searchSupplements(String keyword) {
-        List<Supplement> supplements = supplementRepository.findByNameContaining(keyword);
+    public List<SupplementResponseDto> searchSupplements(String keyword) {
+        List<Supplement> supplements = supplementRepository.findByNameContains(keyword);
         if(supplements == null){
             return null;
         }
         List<SupplementResponseDto> dtos = supplements.stream()
-                .map(supplement -> new SupplementResponseDto(supplement))
+                .map(SupplementResponseDto::new)
                 .collect(Collectors.toList());
-        ResponsePageDto<SupplementResponseDto> response = ResponsePageDto.<SupplementResponseDto>builder()
-                .pageCount((long) (dtos.size()/20))
-                .data(dtos)
-                .build();
-        return response;
+//        ResponsePageDto<SupplementResponseDto> response = ResponsePageDto.<SupplementResponseDto>builder()
+//                .pageCount((long) (dtos.size()/20))
+//                .data(dtos)
+//                .build();
+        return dtos;
     }
 }
