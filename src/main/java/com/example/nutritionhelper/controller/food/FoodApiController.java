@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/v1")
 public class FoodApiController {
     private final FoodService foodService;
-//test
+//test2
     @GetMapping("/food/all")
     public ResponseEntity<?> getFoodList(@PageableDefault(page = 0, size=20) Pageable pageable){
         ResponsePageDto<FoodResponseDto> response = foodService.getFoodList(pageable);
