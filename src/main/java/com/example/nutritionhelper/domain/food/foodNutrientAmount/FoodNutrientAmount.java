@@ -6,12 +6,14 @@ import com.example.nutritionhelper.domain.supplement.supplement.Supplement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Builder
 @Entity
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class FoodNutrientAmount {
