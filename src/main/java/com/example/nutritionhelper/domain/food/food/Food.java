@@ -22,8 +22,8 @@ import java.util.List;
 public class Food {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonProperty("supplement_id")
-    private Long supplementId;
+    @JsonProperty("food_id")
+    private Long foodId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand")
     private FoodBrand brand;

@@ -14,7 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ResponseDto<T> {
+public class ResponsePageDto<T> {
     private String error;
+    private Long pageCount;
     private List<T> data;
 }
