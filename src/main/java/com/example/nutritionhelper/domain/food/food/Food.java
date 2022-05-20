@@ -24,7 +24,7 @@ public class Food {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("food_id")
     private Long foodId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "brand")
     private FoodBrand brand;
     private String name;
@@ -32,7 +32,7 @@ public class Food {
     private Long price;
     private String link;
     private String image;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category")
     private FoodCategory category;
     private String amount;

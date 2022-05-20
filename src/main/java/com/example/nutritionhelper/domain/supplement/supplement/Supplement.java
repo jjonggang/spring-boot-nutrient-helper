@@ -22,7 +22,7 @@ public class Supplement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("supplement_id")
     private Long supplementId;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "brand")
     private SupplementBrand brand;
     private String name;

@@ -38,7 +38,7 @@ public class FoodService {
     }
 
     public ResponsePageDto<FoodResponseDto> searchFoods(String keyword) {
-        List<Food> foods = foodRepository.findByNameContainingIgnoreCase(keyword);
+        List<Food> foods = foodRepository.findByNameContaining(keyword);
         if(foods == null){
             return null;
         }

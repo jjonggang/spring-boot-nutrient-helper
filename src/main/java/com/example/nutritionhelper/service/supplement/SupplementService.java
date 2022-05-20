@@ -35,7 +35,7 @@ public class SupplementService {
     }
 
     public List<SupplementResponseDto> searchSupplements(String keyword) {
-        List<Supplement> supplements = supplementRepository.findByNameContains(keyword);
+        List<Supplement> supplements = supplementRepository.findByNameContaining(keyword);
         if(supplements == null){
             return null;
         }

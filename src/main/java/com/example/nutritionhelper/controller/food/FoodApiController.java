@@ -12,6 +12,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1")
