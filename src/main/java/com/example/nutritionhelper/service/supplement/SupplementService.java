@@ -42,10 +42,6 @@ public class SupplementService {
         List<SupplementResponseDto> dtos = supplements.stream()
                 .map(SupplementResponseDto::new)
                 .collect(Collectors.toList());
-//        ResponsePageDto<SupplementResponseDto> response = ResponsePageDto.<SupplementResponseDto>builder()
-//                .pageCount((long) (dtos.size()/20))
-//                .data(dtos)
-//                .build();
         return dtos;
     }
 }

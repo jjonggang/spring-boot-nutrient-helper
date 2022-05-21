@@ -28,7 +28,9 @@ public class SupplementResponseDto {
     private Long price;
     private String link;
     private String image;
-    private Long dayTerm;
+    private Float daily;
+
+    private String unit;
 
     private List<SupplementNutrientAmountResponseDto> nutrientAmounts = new ArrayList<>();
 
@@ -40,7 +42,8 @@ public class SupplementResponseDto {
         this.price = supplement.getPrice();
         this.link = supplement.getLink();
         this.image = supplement.getImage();
-        this.dayTerm = supplement.getDayTerm();
+        this.daily = supplement.getDaily();
+        this.unit = supplement.getUnit();
         this.nutrientAmounts = supplement.getNutrientAmounts().stream()
                 .map(SupplementNutrientAmountResponseDto::new)
                 .collect(Collectors.toList());

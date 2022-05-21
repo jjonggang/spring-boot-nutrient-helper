@@ -16,6 +16,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Nutrient {
     @Id
+    @JsonProperty("nutrient_id")
+    private String nutrientId;
     @JsonProperty("nutrient_name_eng")
     private String nutrientNameEng;
     @JoinColumn(name = "nutrient_name_kor")

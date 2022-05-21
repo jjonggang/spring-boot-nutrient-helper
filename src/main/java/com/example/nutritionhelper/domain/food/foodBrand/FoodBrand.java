@@ -16,6 +16,9 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class FoodBrand {
     @Id
+    @JsonProperty("brand_id")
+    private String brandId;
+
     @JsonProperty("brand_name_eng")
     private String brandNameEng;
 

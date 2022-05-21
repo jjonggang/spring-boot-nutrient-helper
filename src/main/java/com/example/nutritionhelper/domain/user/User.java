@@ -39,4 +39,11 @@ public class User extends BaseTimeEntity {
 
     @JsonProperty("user_group_id")
     private Long userGroupId;
+
+    @JsonProperty("apple_id")
+    private String appleId;
+    @JsonProperty("kakao_id")
+    private String kakaoId;
+    @JsonProperty("google_id")
+    private String googleId;
 }
