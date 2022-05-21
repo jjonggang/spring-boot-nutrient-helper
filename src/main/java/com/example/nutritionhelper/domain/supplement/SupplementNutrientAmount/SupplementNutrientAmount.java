@@ -26,8 +26,8 @@ public class SupplementNutrientAmount {
     @JsonProperty("supplement_id")
     private Supplement supplement;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nutrient_name")
-    @JsonProperty("nutrient_name")
+    @JoinColumn(name = "nutrient_id")
+    @JsonProperty("nutrient_id")
     private Nutrient nutrient;
     @JsonProperty("nutrient_amount")
     private Float nutrientAmount;

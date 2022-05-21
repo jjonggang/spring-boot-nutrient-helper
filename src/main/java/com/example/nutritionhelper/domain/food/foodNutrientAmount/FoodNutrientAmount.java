@@ -25,7 +25,7 @@ public class FoodNutrientAmount {
     @JoinColumn(name="food_id")
     private Food food;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nutrient_name")
+    @JoinColumn(name = "nutrient_id")
     private Nutrient nutrient;
     @JsonProperty("nutrient_amount")
     private Float nutrientAmount;

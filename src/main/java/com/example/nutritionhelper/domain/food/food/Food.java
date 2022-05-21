@@ -25,7 +25,7 @@ public class Food {
     @JsonProperty("food_id")
     private Long foodId;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "brand")
+    @JoinColumn(name = "brand_id")
     private FoodBrand brand;
     private String name;
     private String content;
@@ -33,7 +33,7 @@ public class Food {
     private String link;
     private String image;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "category")
+    @JoinColumn(name = "category_id")
     private FoodCategory category;
     private String amount;
 

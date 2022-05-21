@@ -23,16 +23,17 @@ public class Supplement {
     @JsonProperty("supplement_id")
     private Long supplementId;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "brand")
+    @JoinColumn(name = "brand_id")
     private SupplementBrand brand;
     private String name;
     private String content;
     private Long price;
     private String link;
     private String image;
-    @JsonProperty("day_term")
-    private Long dayTerm;
 
+    private Float daily;
+
+    private String unit;
     @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
     private List<SupplementNutrientAmount> nutrientAmounts = new ArrayList<>();
 }
