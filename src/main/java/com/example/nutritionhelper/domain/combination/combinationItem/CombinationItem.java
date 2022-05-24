@@ -2,6 +2,7 @@ package com.example.nutritionhelper.domain.combination.combinationItem;
 
 import com.example.nutritionhelper.domain.combination.Combination;
 import com.example.nutritionhelper.domain.food.food.Food;
+import com.example.nutritionhelper.domain.supplement.supplement.Supplement;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,9 +27,13 @@ public class CombinationItem {
 //    @JsonProperty("combination_id")
     private Combination combination;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty("supplement_id")
-    private Long supplementId;
+    @JoinColumn(name = "supplement_id")
+    private Supplement supplement;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonProperty("food_id")
-    private Long foodId;
+    @JoinColumn(name = "food_id")
+    private Food food;
 }

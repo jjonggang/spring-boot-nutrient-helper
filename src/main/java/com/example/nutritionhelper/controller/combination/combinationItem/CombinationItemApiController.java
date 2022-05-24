@@ -43,6 +43,7 @@ public class CombinationItemApiController {
 
             CombinationItem userCombinationItem = combinationItemService.create(userId, userCombination.getCombinationId(), combinationItemRequestDto);
 
+
             CombinationItemResponseDto dto = new CombinationItemResponseDto(userCombinationItem);
 
             return ResponseEntity.ok().body(dto);

@@ -4,6 +4,8 @@ import com.example.nutritionhelper.domain.combination.Combination;
 import com.example.nutritionhelper.domain.combination.CombinationRepository;
 import com.example.nutritionhelper.domain.combination.combinationItem.CombinationItem;
 import com.example.nutritionhelper.domain.combination.combinationItem.CombinationItemRepository;
+import com.example.nutritionhelper.domain.food.food.FoodRepository;
+import com.example.nutritionhelper.domain.supplement.supplement.SupplementRepository;
 import com.example.nutritionhelper.dto.combination.CombinationItemRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,10 @@ import java.util.List;
 public class CombinationItemService {
     private final CombinationItemRepository combinationItemRepository;
     private final CombinationRepository combinationRepository;
+
+    private final SupplementRepository supplementRepository;
+
+    private final FoodRepository foodRepository;
     @Transactional
     public CombinationItem create(Long userId, Long combinationId, CombinationItemRequestDto combinationItemRequestDto) {
         CombinationItem combinationItem;
@@ -33,7 +39,7 @@ public class CombinationItemService {
             Combination combination = combinationRepository.findFirstByUserIdOrderByUserIdDesc(userId);
             combinationItem = CombinationItem.builder()
                     .combination(combination)
-                    .supplementId(combinationItemRequestDto.getSupplementId())
+                    .supplement(supplementRepository.getById(combinationItemRequestDto.getSupplementId()))
                     .build();
         }else{
             if(combinationItemRepository.existsByFoodIdAndCombinationId(combinationItemRequestDto.getFoodId(), combinationId) == 1){
@@ -42,7 +48,7 @@ public class CombinationItemService {
             Combination combination = combinationRepository.findFirstByUserIdOrderByUserIdDesc(userId);
             combinationItem = CombinationItem.builder()
                     .combination(combination)
-                    .foodId(combinationItemRequestDto.getFoodId())
+                    .food(foodRepository.getById(combinationItemRequestDto.getFoodId()))
                     .build();
         }
         return combinationItemRepository.save(combinationItem);
