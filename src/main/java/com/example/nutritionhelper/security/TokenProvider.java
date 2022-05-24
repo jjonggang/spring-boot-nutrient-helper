@@ -22,7 +22,7 @@ public class TokenProvider {
         // 기한 설정
         Date expiryDate = Date.from(
                 Instant.now()
-                        .plus(1, ChronoUnit.DAYS)
+                        .plus(30, ChronoUnit.DAYS)
                 );
         return Jwts.builder()
                 // SECRET_KEY

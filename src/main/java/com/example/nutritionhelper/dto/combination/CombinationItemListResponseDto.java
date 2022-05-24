@@ -22,12 +22,9 @@ public class CombinationItemListResponseDto {
 
     public CombinationItemListResponseDto(Combination combination){
         this.combinationItems = combination.getCombinationItems().stream()
-                .map(combinationItem -> new CombinationItemResponseDto(combinationItem))
+                .map(combinationItem ->
+                        new CombinationItemResponseDto(combinationItem)
+                )
                 .collect(Collectors.toList());
-
     }
-
-//    public CombinationItemListResponseDto(Combination combination){
-//        this.combinationItems = combination.getCombinationItems();
-//    }
 }
