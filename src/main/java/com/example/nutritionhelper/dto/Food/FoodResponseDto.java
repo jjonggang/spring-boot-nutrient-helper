@@ -32,11 +32,19 @@ public class FoodResponseDto {
 
     public FoodResponseDto(Food food){
         this.foodId = food.getFoodId();
-        this.brand = food.getBrand().getBrandNameKor();
+        if(brand != null){
+            this.brand = food.getBrand().getBrandNameKor();
+        }
         this.name = food.getName();
-        this.content = food.getContent();
-        this.price = food.getPrice();
-        this.link = food.getLink();
+        if(content != null){
+            this.content = food.getContent();
+        }
+        if(price != null){
+            this.price = food.getPrice();
+        }
+        if(link != null){
+            this.link = food.getLink();
+        }
         this.image = food.getImage();
         this.amount = food.getAmount();
 

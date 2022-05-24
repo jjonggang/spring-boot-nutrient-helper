@@ -19,6 +19,7 @@ public class SupplementService {
     private final SupplementRepository supplementRepository;
 
     public ResponsePageDto<SupplementResponseDto> getSupplementList(Pageable pageable){
+        Long count = supplementRepository.count();
         List<Supplement> supplements = supplementRepository.findAllByOrderBySupplementIdDesc(pageable);
         if(supplements == null){
             throw new IllegalStateException("영양제가 존재하지 않습니다.");
@@ -27,7 +28,7 @@ public class SupplementService {
                     .map(supplement -> new SupplementResponseDto(supplement))
                     .collect(Collectors.toList());
             ResponsePageDto<SupplementResponseDto> response = ResponsePageDto.<SupplementResponseDto>builder()
-                    .pageCount((long) (dtos.size()/20))
+                    .pageCount((long) (count/20))
                     .data(dtos)
                     .build();
             return response;
