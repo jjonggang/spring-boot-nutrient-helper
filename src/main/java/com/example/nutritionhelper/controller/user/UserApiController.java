@@ -28,18 +28,18 @@ public class UserApiController {
         try{
             User user = User.builder()
                     .email(userDto.getEmail())
-//                    .name(userDto.getName())
+                    .name(userDto.getName())
                     .password(passwordEncoder.encode(userDto.getPassword()))
-//                    .birthDate(userDto.getBirthDate())
-//                    .gender(userDto.getGender())
+                    .birthDate(userDto.getBirthDate())
+                    .gender(userDto.getGender())
                     .build();
             User registeredUser = userService.create(user);
-            UserDto responseUserDto = UserDto.builder()
-                    .email(registeredUser.getEmail())
-                    .userId(registeredUser.getUserId())
-                    .name(registeredUser.getName())
-                    .build();
-            return ResponseEntity.ok().body(responseUserDto);
+//            UserDto responseUserDto = UserDto.builder()
+//                    .email(registeredUser.getEmail())
+//                    .userId(registeredUser.getUserId())
+//                    .name(registeredUser.getName())
+//                    .build();
+            return ResponseEntity.ok().body("success");
         }catch (Exception e){
             ResponseDto responseDto = ResponseDto.builder()
                     .error(e.getMessage())
@@ -74,6 +74,49 @@ public class UserApiController {
                     .body(responseDto);
         }
     }
+
+    @PostMapping("/auth/email-duplication")
+    public ResponseEntity<?> emailExists(@RequestParam("email") String email){
+
+        try{
+            boolean exist = userService.checkEmailExist(email);
+            if(exist){
+                return ResponseEntity.ok().body(1);
+            }else{
+                return ResponseEntity.ok().body(0);
+            }
+
+        }catch (Exception e){
+            ResponseDto responseDto = ResponseDto.builder()
+                    .error(e.getMessage())
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDto);
+        }
+    }
+
+    @PostMapping("/auth/name-duplication")
+    public ResponseEntity<?> nameExists(@RequestParam("name") String name){
+
+        try{
+            boolean exist = userService.checkNameExist(name);
+            if(exist){
+                return ResponseEntity.ok().body(1);
+            }else{
+                return ResponseEntity.ok().body(0);
+            }
+
+        }catch (Exception e){
+            ResponseDto responseDto = ResponseDto.builder()
+                    .error(e.getMessage())
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDto);
+        }
+    }
+
 
 //    @PutMapping("/user/birth-date")
 //    public ResponseEntity<?> updateBirthDate(@RequestParam("birth_date")String birthDate, @AuthenticationPrincipal String strUserId) throws Exception{

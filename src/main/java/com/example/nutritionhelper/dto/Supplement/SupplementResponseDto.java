@@ -1,5 +1,6 @@
 package com.example.nutritionhelper.dto.Supplement;
 
+import com.example.nutritionhelper.domain.nutrient.Nutrient;
 import com.example.nutritionhelper.domain.supplement.SupplementNutrientAmount.SupplementNutrientAmount;
 import com.example.nutritionhelper.domain.supplement.supplement.Supplement;
 import com.example.nutritionhelper.domain.supplement.supplementBrand.SupplementBrand;
@@ -29,10 +30,11 @@ public class SupplementResponseDto {
     private String link;
     private String image;
     private Float daily;
-
     private String unit;
-
+    private Nutrient category;
     private List<SupplementNutrientAmountResponseDto> nutrientAmounts = new ArrayList<>();
+
+
 
     public SupplementResponseDto(Supplement supplement){
         this.supplementId = supplement.getSupplementId();
@@ -44,8 +46,10 @@ public class SupplementResponseDto {
         this.image = supplement.getImage();
         this.daily = supplement.getDaily();
         this.unit = supplement.getUnit();
+        this.category = supplement.getCategory();
         this.nutrientAmounts = supplement.getNutrientAmounts().stream()
                 .map(SupplementNutrientAmountResponseDto::new)
                 .collect(Collectors.toList());
+
     }
 }

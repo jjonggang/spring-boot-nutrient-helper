@@ -40,6 +40,14 @@ public class UserService {
         return null;
     }
 
+    public boolean checkEmailExist(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public boolean checkNameExist(String name) {
+        return userRepository.existsByName(name);
+    }
+
 
 //    public User updateBirthDate(Long userId, String birthDate) {
 //
