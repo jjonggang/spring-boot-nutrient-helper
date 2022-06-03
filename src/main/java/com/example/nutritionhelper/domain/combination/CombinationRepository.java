@@ -6,4 +6,6 @@ public interface CombinationRepository extends JpaRepository<Combination, Long> 
     boolean existsByUserId(Long userId);
 
     Combination findFirstByUserIdOrderByUserIdDesc(Long userId);
+
+
 }

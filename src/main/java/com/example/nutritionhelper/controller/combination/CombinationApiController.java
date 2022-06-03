@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -44,6 +46,26 @@ public class CombinationApiController {
                     .body(responseDto);
         }
     }
+
+//    @GetMapping("/combination/list")
+//    public ResponseEntity<?> getCombinationItemListOfOthers(@AuthenticationPrincipal String strUserId){
+//        try{
+//            Long userId = Long.valueOf(strUserId);
+//
+//            List<Combination> combinationList = combinationService.getOtherCombinations();
+//
+//            CombinationItemListResponseDto dto = new CombinationItemListResponseDto(userCombination);
+//
+//            return ResponseEntity.ok().body(dto);
+//        }catch (Exception e){
+//            ResponseDto responseDto = ResponseDto.builder()
+//                    .error(e.getMessage())
+//                    .build();
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(responseDto);
+//        }
+//    }
 
 
 }

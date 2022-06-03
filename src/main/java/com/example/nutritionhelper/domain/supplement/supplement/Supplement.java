@@ -1,5 +1,6 @@
 package com.example.nutritionhelper.domain.supplement.supplement;
 
+import com.example.nutritionhelper.domain.nutrient.Nutrient;
 import com.example.nutritionhelper.domain.supplement.SupplementNutrientAmount.SupplementNutrientAmount;
 import com.example.nutritionhelper.domain.supplement.supplementBrand.SupplementBrand;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,6 +35,14 @@ public class Supplement {
     private Float daily;
 
     private String unit;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category")
+    @JsonProperty("category")
+    private Nutrient category;
+
     @OneToMany(mappedBy = "supplement", cascade = CascadeType.ALL)
     private List<SupplementNutrientAmount> nutrientAmounts = new ArrayList<>();
+
+
 }

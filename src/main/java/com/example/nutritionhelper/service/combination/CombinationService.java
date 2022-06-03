@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -32,4 +34,13 @@ public class CombinationService {
             return combination;
         }
     }
+
+//    public List<Combination> getOtherCombinations() {
+//        Combination combination = combinationRepository.findFirstByUserIdOrderByUserIdDesc(userId);
+//        if(combination == null){
+//            throw new RuntimeException("combination not exists");
+//        }else{
+//            return combination;
+//        }
+//    }
 }
