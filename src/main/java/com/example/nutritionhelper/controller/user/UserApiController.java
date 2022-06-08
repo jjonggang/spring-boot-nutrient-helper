@@ -76,10 +76,10 @@ public class UserApiController {
     }
 
     @PostMapping("/auth/email-duplication")
-    public ResponseEntity<?> emailExists(@RequestParam("email") String email){
+    public ResponseEntity<?> emailExists(@RequestBody UserDto userDto){
 
         try{
-            boolean exist = userService.checkEmailExist(email);
+            boolean exist = userService.checkEmailExist(userDto.getEmail());
             if(exist){
                 return ResponseEntity.ok().body(1);
             }else{
@@ -97,10 +97,10 @@ public class UserApiController {
     }
 
     @PostMapping("/auth/name-duplication")
-    public ResponseEntity<?> nameExists(@RequestParam("name") String name){
+    public ResponseEntity<?> nameExists(@RequestBody UserDto userDto){
 
         try{
-            boolean exist = userService.checkNameExist(name);
+            boolean exist = userService.checkNameExist(userDto.getName());
             if(exist){
                 return ResponseEntity.ok().body(1);
             }else{
