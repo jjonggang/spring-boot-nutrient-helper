@@ -8,4 +8,5 @@ public interface CombinationRepository extends JpaRepository<Combination, Long> 
     Combination findFirstByUserIdOrderByUserIdDesc(Long userId);
 
 
+    Combination findByUserId(Long userId);
 }

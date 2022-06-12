@@ -24,4 +24,8 @@ public interface CombinationItemRepository extends JpaRepository<CombinationItem
 
     @Query(value = "SELECT * FROM combination_item WHERE combination_id=?1 ORDER BY combination_item_id DESC", nativeQuery = true)
     List<CombinationItem> findByCombinationIdOrderByCombinationItemId(Long combinationId);
+    @Query(value = "SELECT * FROM combination_item WHERE combination_id=?1 AND food_id IS NOT NULL ORDER BY combination_item_id DESC", nativeQuery = true)
+    List<CombinationItem> findFoodList(Long combinationId);
+    @Query(value = "SELECT * FROM combination_item WHERE combination_id=?1 AND supplement_id IS NOT NULL ORDER BY combination_item_id DESC", nativeQuery = true)
+    List<CombinationItem> findSupplementList(Long combinationId);
 }
