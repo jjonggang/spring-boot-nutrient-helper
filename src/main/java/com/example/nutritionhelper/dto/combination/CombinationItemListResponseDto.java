@@ -22,9 +22,7 @@ public class CombinationItemListResponseDto {
 
     public CombinationItemListResponseDto(Combination combination){
         this.combinationItems = combination.getCombinationItems().stream()
-                .map(combinationItem ->
-                        new CombinationItemResponseDto(combinationItem)
-                )
+                .map(CombinationItemResponseDto::new)
                 .collect(Collectors.toList());
     }
 }

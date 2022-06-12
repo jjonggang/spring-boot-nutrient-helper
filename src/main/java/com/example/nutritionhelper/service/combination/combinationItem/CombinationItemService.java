@@ -82,4 +82,20 @@ public class CombinationItemService {
             return combinationItems;
         }
     }
+
+    public List<CombinationItem> findFoodListOfCombinationId(Long combinationId) {
+        List<CombinationItem> items = combinationItemRepository.findFoodList(combinationId);
+        if(items == null || items.size()==0){
+            throw new RuntimeException("음식 아이템이 존재하지 않습니다.");
+        }
+        return items;
+    }
+
+    public List<CombinationItem> findSupplementListOfCombinationId(Long combinationId) {
+        List<CombinationItem> items = combinationItemRepository.findSupplementList(combinationId);
+        if(items == null || items.size()==0){
+            throw new RuntimeException("영양제 아이템이 존재하지 않습니다.");
+        }
+        return items;
+    }
 }
