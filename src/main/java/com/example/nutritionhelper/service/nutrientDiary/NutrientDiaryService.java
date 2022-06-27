@@ -88,10 +88,6 @@ public class NutrientDiaryService {
         }
         
         log.info("테스트중");
-//        log.info(savedNutrientDiary.getNutrientDiaryItems().get(0).getNutrientDiaryItemId().toString());
-//        return nutrientDiaryRepository.save(savedNutrientDiary);
-//        NutrientDiary nutrientDiary = nutrientDiaryRepository.findById(savedNutrientDiary.getNutrientDiaryId());
-//        log.info(savedNutrientDiary.getNutrientDiaryId().toString());
         return nutrientDiaryId;
     }
 

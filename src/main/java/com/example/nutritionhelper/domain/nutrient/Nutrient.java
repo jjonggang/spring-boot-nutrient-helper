@@ -1,5 +1,7 @@
 package com.example.nutritionhelper.domain.nutrient;
 
+import com.example.nutritionhelper.domain.food.foodCategory.FoodCategory;
+import com.example.nutritionhelper.domain.nutrient.nutrientCategory.NutrientCategory;
 import com.example.nutritionhelper.domain.supplement.supplementBrand.SupplementBrand;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -20,7 +22,12 @@ public class Nutrient {
     private String nutrientId;
     @JsonProperty("nutrient_name_eng")
     private String nutrientNameEng;
-    @JoinColumn(name = "nutrient_name_kor")
+    @JsonProperty("nutrient_name_kor")
     private String nutrientNameKor;
     private String unit;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "category")
+    private NutrientCategory category;
+    @JsonProperty("nutrient_image")
+    private String nutrientImage;
 }
