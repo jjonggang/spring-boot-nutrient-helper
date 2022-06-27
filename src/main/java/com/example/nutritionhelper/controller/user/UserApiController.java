@@ -21,7 +21,7 @@ public class UserApiController {
     private final UserService userService;
     private final TokenProvider tokenProvider;
 
-    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @PostMapping("/auth/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
@@ -60,6 +60,7 @@ public class UserApiController {
         if(user!=null){
             final String token = tokenProvider.create(user);
             final UserDto responseUserDto = UserDto.builder()
+                    .name(user.getName())
                     .email(user.getEmail())
                     .userId(user.getUserId())
                     .token(token)
