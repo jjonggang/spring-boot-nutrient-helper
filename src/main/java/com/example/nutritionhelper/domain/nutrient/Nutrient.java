@@ -30,4 +30,6 @@ public class Nutrient {
     private NutrientCategory category;
     @JsonProperty("nutrient_image")
     private String nutrientImage;
+    @JsonProperty("is_analysis")
+    private Boolean isAnalysis;
 }

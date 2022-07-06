@@ -26,19 +26,18 @@ public class UserApiController {
     @PostMapping("/auth/signup")
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto) {
         try{
+            Long userGroupId = userService.checkUserGroup(userDto.getBirthDate(), userDto.getGender());
             User user = User.builder()
                     .email(userDto.getEmail())
                     .name(userDto.getName())
+                    .userGroupId(userGroupId)
                     .password(passwordEncoder.encode(userDto.getPassword()))
                     .birthDate(userDto.getBirthDate())
                     .gender(userDto.getGender())
                     .build();
             User registeredUser = userService.create(user);
-//            UserDto responseUserDto = UserDto.builder()
-//                    .email(registeredUser.getEmail())
-//                    .userId(registeredUser.getUserId())
-//                    .name(registeredUser.getName())
-//                    .build();
+
+
             return ResponseEntity.ok().body("success");
         }catch (Exception e){
             ResponseDto responseDto = ResponseDto.builder()
@@ -117,6 +116,8 @@ public class UserApiController {
                     .body(responseDto);
         }
     }
+
+
 
 
 //    @PutMapping("/user/birth-date")
