@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -140,7 +141,17 @@ public class CombinationApiController {
             }
             // 0번 index에 deficiency, 1번 index에 excess
             List<NutrientCircleResponseDto> result = userGroupNutrientService.mainPageDeficiencyAnalysis(userCombination, user);
-            return ResponseEntity.ok().body(result);
+            List<NutrientCircleResponseDto> deficient = new ArrayList<>();
+            List<NutrientCircleResponseDto> excess = new ArrayList<>();
+            for(int i=0;i<result.size();i++){
+                if(result.get(i).getType()==0){
+                    deficient.add(result.get(i));
+                }else{
+                    excess.add(result.get(i));
+                }
+            }
+            NutrientMainPageAnalyzeResponseDto dto = new NutrientMainPageAnalyzeResponseDto(deficient, excess);
+            return ResponseEntity.ok().body(dto);
         }catch (Exception e){
             log.info(e.getMessage());
             ResponseDto responseDto = ResponseDto.builder()
