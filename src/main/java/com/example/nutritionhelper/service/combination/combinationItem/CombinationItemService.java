@@ -5,11 +5,13 @@ import com.example.nutritionhelper.domain.combination.CombinationRepository;
 import com.example.nutritionhelper.domain.combination.combinationItem.CombinationItem;
 import com.example.nutritionhelper.domain.combination.combinationItem.CombinationItemRepository;
 import com.example.nutritionhelper.domain.food.food.FoodRepository;
+import com.example.nutritionhelper.domain.nutrient.Nutrient;
 import com.example.nutritionhelper.domain.nutrient.NutrientRepository;
 import com.example.nutritionhelper.domain.supplement.supplement.SupplementRepository;
 import com.example.nutritionhelper.dto.combination.CombinationItemRequestDto;
 import com.example.nutritionhelper.dto.nutrientAnalysis.NutrientAnalysisDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +19,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
+@Slf4j
+//@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CombinationItemService {
     private final CombinationItemRepository combinationItemRepository;
@@ -88,29 +91,48 @@ public class CombinationItemService {
 
     public List<NutrientAnalysisDto> combinationItemCombine(Combination userCombination) {
         List<CombinationItem> combinationItems = userCombination.getCombinationItems();
-        List<String> analysisNutrientIds = nutrientRepository.findNutrientIdByIsAnalysis();
-        List<NutrientAnalysisDto> dtos =  analysisNutrientIds.stream().map(id -> new NutrientAnalysisDto(id)).collect(Collectors.toList());
+        log.info("3-1"+combinationItems.toString());
+//        List<String> analysisNutrientIds = nutrientRepository.findNutrientIdByIsAnalysis();
+        List<Nutrient> analysisNutrients = nutrientRepository.findByIsAnalysis();
+        log.info("3-2"+analysisNutrients.toString());
+
+
+        List<NutrientAnalysisDto> dtos =  analysisNutrients.stream().map(nutrient -> new NutrientAnalysisDto(nutrient)).collect(Collectors.toList());
+        log.info("3-3"+dtos.size());
+
         NutrientAnalysisDto temp;
         Float tempAmount;
         for(int i=0;i<combinationItems.size();i++){
             if(combinationItems.get(i).getFood()!=null){
+                log.info("3-4-1"+combinationItems.get(i).getFood().getName());
                 for(int j=0;j<combinationItems.get(i).getFood().getNutrientAmounts().size();j++){
                     if(combinationItems.get(i).getFood().getNutrientAmounts().get(j).getNutrient().getIsAnalysis()){
                         for(int k=0;k<dtos.size();k++){
                             if(dtos.get(k).getNutrientId().equals(combinationItems.get(i).getFood().getNutrientAmounts().get(j).getNutrient().getNutrientId())){
                                 dtos.get(k).addAmount(combinationItems.get(i).getFood().getNutrientAmounts().get(j).getNutrientAmount());
                                 dtos.get(k).addItem(combinationItems.get(i));
+                                log.info("3-4"+dtos.get(k).getNutrientId());
                             }
                         }
                     }
                 }
             }else{
+                log.info("3-4-2"+combinationItems.get(i).getSupplement().getName());
                 for(int j=0;j<combinationItems.get(i).getSupplement().getNutrientAmounts().size();j++){
+                    log.info("3-4-2-1"+combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrient().getIsAnalysis());
                     if(combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrient().getIsAnalysis()){
+                        log.info("3-4-2-2"+combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrient().getIsAnalysis());
                         for(int k=0;k<dtos.size();k++){
+                            log.info("비교 nutrient" + dtos.get(k).getNutrientId());
+                            log.info("기본 nutrient" + combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrient().getNutrientId());
+
                             if(dtos.get(k).getNutrientId().equals(combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrient().getNutrientId())){
+                                log.info("기본 nutrient" + combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrient().getNutrientId());
+                                log.info("양" + combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrientAmount());
+
                                 dtos.get(k).addAmount(combinationItems.get(i).getSupplement().getNutrientAmounts().get(j).getNutrientAmount());
                                 dtos.get(k).addItem(combinationItems.get(i));
+                                log.info("3-4"+dtos.get(k).getNutrientId());
                             }
                         }
                     }
@@ -127,6 +149,7 @@ public class CombinationItemService {
 //                }
 //            }
 //        }
+        log.info("3-5"+dtos.toString());
         return dtos;
 
 //        if(combinationItems == null){

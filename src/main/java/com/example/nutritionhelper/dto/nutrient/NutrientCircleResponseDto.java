@@ -15,8 +15,15 @@ public class NutrientCircleResponseDto {
     String nutrientName;
     String circleImage;
 
+    int type;
+
     public NutrientCircleResponseDto(Nutrient entity){
         this.nutrientName = entity.getNutrientNameKor();
         this.circleImage = entity.getNutrientImage();
+    }
+    public NutrientCircleResponseDto(Nutrient entity, int type){
+        this.nutrientName = entity.getNutrientNameKor();
+        this.circleImage = entity.getNutrientImage();
+        this.type = type;
     }
 }

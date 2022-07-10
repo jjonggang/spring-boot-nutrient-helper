@@ -28,17 +28,32 @@ public class UserGroupNutrientService {
 
     private final UserGroupNutrientRepository userGroupNutrientRepository;
 
-    public List<List<NutrientCircleResponseDto>> mainPageDeficiencyAnalysis(Combination userCombination, User user){
-        List<NutrientCircleResponseDto> test = new ArrayList<>();
+    public List<NutrientCircleResponseDto> mainPageDeficiencyAnalysis(Combination userCombination, User user){
+//        List<NutrientCircleResponseDto> test = new ArrayList<>();
         Long userGroupId = user.getUserGroupId();
+        log.info("2-1"+userGroupId);
         List<UserGroupNutrient> userGroupNutrients = userGroupNutrientRepository.findByUserGroupId(userGroupId);
-        List<List<NutrientCircleResponseDto>> result = new ArrayList<>();
+        log.info("2-2"+userGroupNutrients.toString());
+        List<NutrientCircleResponseDto> result = new ArrayList<>();
         UserGroupNutrient temp;
 
         List<NutrientAnalysisDto> dtos = combinationItemService.combinationItemCombine(userCombination);
+        log.info("2-3"+dtos.toString());
 
-//        List<Nutrient>
+        int current = -1;
         for(int i=0;i<userGroupNutrients.size();i++){
+            for (int j=0;j<dtos.size();j++){
+                if(dtos.get(j).getNutrientId().equals(userGroupNutrients.get(i).getNutrient().getNutrientId())){
+                    current = j;
+                    break;
+                }
+                if(j==dtos.size()-1){
+                    throw new RuntimeException("mainpage deficiency analysis error");
+                }
+            }
+            if(current == -1){
+                throw new RuntimeException("mainpage deficiency analysis error");
+            }
             temp = userGroupNutrients.get(i);
             int n = 0;
             // 1. average만 존재하는 경우
@@ -76,8 +91,37 @@ public class UserGroupNutrientService {
                 case 0:
                     throw new RuntimeException("분석 오류1");
                 case 1:
-
-
+                    continue;
+                case 2:
+                    // deficiency(0)
+                    if(userGroupNutrients.get(i).getRecommendAmount()>dtos.get(current).getAmount()){
+                        result.add(new NutrientCircleResponseDto(dtos.get(current).getNutrient(), 0));
+                    }
+                    // excess(1)
+                    else if(userGroupNutrients.get(i).getRecommendAmount()<dtos.get(current).getAmount()){
+                        result.add(new NutrientCircleResponseDto(dtos.get(current).getNutrient(), 1));
+                    }
+                    continue;
+                case 3:
+                    // excess(1)
+                    if(userGroupNutrients.get(i).getEnoughAmount()<dtos.get(current).getAmount()){
+                        result.add(new NutrientCircleResponseDto(dtos.get(current).getNutrient(), 1));
+                    }
+                    continue;
+                case 4:
+                    if(userGroupNutrients.get(i).getRecommendAmount()>dtos.get(current).getAmount()){
+                        result.add(new NutrientCircleResponseDto(dtos.get(current).getNutrient(), 0));
+                    }
+                    // excess(1)
+                    else if(userGroupNutrients.get(i).getMaximumAmount()<dtos.get(current).getAmount()){
+                        result.add(new NutrientCircleResponseDto(dtos.get(current).getNutrient(), 1));
+                    }
+                    continue;
+                case 5:
+                    if(userGroupNutrients.get(i).getMaximumAmount()<dtos.get(current).getAmount()){
+                        result.add(new NutrientCircleResponseDto(dtos.get(current).getNutrient(), 1));
+                    }
+                    continue;
                 default:
                     break;
             }
@@ -85,13 +129,13 @@ public class UserGroupNutrientService {
 
 
 
-        List<Nutrient> testNutrients = nutrientRepository.test();
+//        List<Nutrient> testNutrients = nutrientRepository.test();
 
-        Collections.shuffle(testNutrients);
-        for(int i=0;i<5;i++){
-            test.add(new NutrientCircleResponseDto(testNutrients.get(i)));
-        }
+//        Collections.shuffle(testNutrients);
+//        for(int i=0;i<5;i++){
+//            test.add(new NutrientCircleResponseDto(testNutrients.get(i)));
+//        }
 
-        return test;
+        return result;
     }
 }

@@ -34,4 +34,10 @@ public class FoodApiController {
         }
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/food/combine-nutrients")
+    public ResponseEntity<?> testtest(){
+        foodService.combineNutrients();
+        return ResponseEntity.ok().body("성공");
+    }
 }
