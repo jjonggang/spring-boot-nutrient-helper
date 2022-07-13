@@ -140,6 +140,11 @@ public class CombinationItemService {
             }
         }
 
+
+//        for(int i=0;i<dtos.size();i++){
+//            if(dtos.get(i).getNutrientId())
+//        }
+
 //        for(int i=0;i<analysisNutrientIds.size();i++){
 //            for(int j=0;j<combinationItems.size();j++){
 //                if(combinationItems.get(j).getFood()!=null){
