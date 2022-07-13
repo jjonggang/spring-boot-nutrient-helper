@@ -9,6 +9,7 @@ import com.example.nutritionhelper.dto.combination.CombinationItemRequestDto;
 import com.example.nutritionhelper.dto.combination.CombinationItemResponseDto;
 import com.example.nutritionhelper.dto.nutrient.NutrientCircleResponseDto;
 import com.example.nutritionhelper.dto.nutrient.NutrientMainPageAnalyzeResponseDto;
+import com.example.nutritionhelper.dto.nutrient.NutrientResultAnalysisDto;
 import com.example.nutritionhelper.service.combination.CombinationService;
 import com.example.nutritionhelper.service.combination.combinationItem.CombinationItemService;
 import com.example.nutritionhelper.service.user.UserService;
@@ -152,6 +153,44 @@ public class CombinationApiController {
             }
             NutrientMainPageAnalyzeResponseDto dto = new NutrientMainPageAnalyzeResponseDto(deficient, excess);
             return ResponseEntity.ok().body(dto);
+        }catch (Exception e){
+            log.info(e.getMessage());
+            ResponseDto responseDto = ResponseDto.builder()
+                    .error(e.getMessage())
+                    .build();
+            return ResponseEntity
+                    .badRequest()
+                    .body(responseDto);
+        }
+    }
+
+    @GetMapping("/combination/all/analysis")
+    public ResponseEntity<?> allAnalysis(@AuthenticationPrincipal String strUserId){
+        try{
+            Long userId = Long.valueOf(strUserId);
+            User user = userService.getById(userId);
+            Combination userCombination;
+            if(!combinationService.checkIfExists(userId)){
+                log.info("1-1");
+                //새로 만들기
+                userCombination = combinationService.createCombination(userId);
+                return ResponseEntity
+                        .badRequest()
+                        .body("combination이 존재하지 않습니다.");
+            }else{
+                log.info("1-2");
+                //combinationId 찾아오기
+                userCombination = combinationService.findCombination(userId);
+                log.info("1-3" + String.valueOf(userCombination));
+                if(userCombination.getCombinationItems().size()==0){
+                    return ResponseEntity
+                            .badRequest()
+                            .body("combination에 아이템이 존재하지 않습니다.");
+                }
+            }
+            // 0번 index에 deficiency, 1번 index에 excess
+            List<NutrientResultAnalysisDto> result = userGroupNutrientService.resultAnalysis(userCombination, user);
+            return ResponseEntity.ok().body(result);
         }catch (Exception e){
             log.info(e.getMessage());
             ResponseDto responseDto = ResponseDto.builder()

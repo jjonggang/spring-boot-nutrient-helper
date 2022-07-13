@@ -7,6 +7,7 @@ import com.example.nutritionhelper.domain.userGroup.UserGroup;
 import com.example.nutritionhelper.domain.userGroupNutrient.UserGroupNutrient;
 import com.example.nutritionhelper.domain.userGroupNutrient.UserGroupNutrientRepository;
 import com.example.nutritionhelper.dto.nutrient.NutrientCircleResponseDto;
+import com.example.nutritionhelper.dto.nutrient.NutrientResultAnalysisDto;
 import com.example.nutritionhelper.dto.nutrientAnalysis.NutrientAnalysisDto;
 import com.example.nutritionhelper.service.combination.combinationItem.CombinationItemService;
 import lombok.RequiredArgsConstructor;
@@ -138,4 +139,26 @@ public class UserGroupNutrientService {
 
         return result;
     }
+    public List<NutrientResultAnalysisDto> resultAnalysis(Combination userCombination, User user){
+        Long userGroupId = user.getUserGroupId();
+        List<UserGroupNutrient> userGroupNutrients = userGroupNutrientRepository.findByUserGroupId(userGroupId);
+        List<NutrientAnalysisDto> dtos = combinationItemService.combinationItemCombine(userCombination);
+        List<NutrientResultAnalysisDto> result = new ArrayList<>();
+        NutrientAnalysisDto temp = null;
+        for(int i=0;i<userGroupNutrients.size();i++){
+            for(int j=0;j<dtos.size();j++){
+                if(userGroupNutrients.get(i).getNutrient().getNutrientId().equals(dtos.get(j).getNutrientId())){
+                    log.info("결과 분석1");
+                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), dtos.get(j)));
+                    continue;
+                }
+                if(j==dtos.size()-1){
+                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), temp));
+                }
+            }
+        }
+
+        return result;
+    }
+
 }
