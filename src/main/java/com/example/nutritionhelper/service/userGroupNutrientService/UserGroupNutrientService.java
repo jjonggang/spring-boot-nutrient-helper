@@ -150,7 +150,7 @@ public class UserGroupNutrientService {
                 if(userGroupNutrients.get(i).getNutrient().getNutrientId().equals(dtos.get(j).getNutrientId())){
                     log.info("결과 분석1");
                     result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), dtos.get(j)));
-                    continue;
+                    break;
                 }
                 if(j==dtos.size()-1){
                     result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), temp));
