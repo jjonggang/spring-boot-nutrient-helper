@@ -149,11 +149,91 @@ public class UserGroupNutrientService {
             for(int j=0;j<dtos.size();j++){
                 if(userGroupNutrients.get(i).getNutrient().getNutrientId().equals(dtos.get(j).getNutrientId())){
                     log.info("결과 분석1");
-                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), dtos.get(j)));
+                    int n = 0;
+                    int type=0;
+                    // 1. average만 존재하는 경우
+                    // ENG
+                    if(userGroupNutrients.get(i).getAverageAmount()!=null&&userGroupNutrients.get(i).getRecommendAmount()==null&&userGroupNutrients.get(i).getEnoughAmount()==null
+                            &&userGroupNutrients.get(i).getMaximumAmount()==null){
+                        n=1;
+                    }
+                    // 2. average, recommend만 존재하는 경우
+                    // recommend보다 적으면 deficiency(0), 많으면 excess(1)
+                    else if(userGroupNutrients.get(i).getAverageAmount()!=null&&userGroupNutrients.get(i).getRecommendAmount()!=null&&userGroupNutrients.get(i).getEnoughAmount()==null
+                            &&userGroupNutrients.get(i).getMaximumAmount()==null){
+                        n=2;
+                    }
+                    // 3. enough만 존재하는 경우
+                    // enough 넘으면 많으면 excess(1)
+                    else if(userGroupNutrients.get(i).getAverageAmount()==null&&userGroupNutrients.get(i).getRecommendAmount()==null&&userGroupNutrients.get(i).getEnoughAmount()!=null
+                            &&userGroupNutrients.get(i).getMaximumAmount()==null){
+                        n=3;
+                    }
+                    // 4. average, recommend, maximum만 존재하는 경우
+                    // recommend보다 적으면 deficiency(0), maximum보다 많으면 excess(1)
+                    else if(userGroupNutrients.get(i).getAverageAmount()!=null&&userGroupNutrients.get(i).getRecommendAmount()!=null&&userGroupNutrients.get(i).getEnoughAmount()==null
+                            &&userGroupNutrients.get(i).getMaximumAmount()!=null){
+                        n=4;
+                    }
+                    // 5. enough, maximum만 존재하는 경우
+                    // maximum보다 많으면 excess(1)
+                    else if(userGroupNutrients.get(i).getAverageAmount()==null&&userGroupNutrients.get(i).getRecommendAmount()==null&&userGroupNutrients.get(i).getEnoughAmount()!=null
+                            &&userGroupNutrients.get(i).getMaximumAmount()!=null){
+                        n=5;
+                    }
+
+                    switch(n) {
+                        case 0:
+                            throw new RuntimeException("분석 오류1");
+                        case 1:
+                            type=-1;
+                            break;
+                        case 2:
+                            // deficiency(0)
+                            if(userGroupNutrients.get(i).getRecommendAmount()>dtos.get(j).getAmount()){
+                                type=0;
+                            }
+                            // excess(1)
+                            else if(userGroupNutrients.get(i).getRecommendAmount()<dtos.get(j).getAmount()){
+                                type=1;
+                            }else{
+                                type=-1;
+                            }
+                            break;
+                        case 3:
+                            // excess(1)
+                            if(userGroupNutrients.get(i).getEnoughAmount()<dtos.get(j).getAmount()){
+                                type=1;
+                            }else{
+                                type=-1;
+                            }
+                            break;
+                        case 4:
+                            if(userGroupNutrients.get(i).getRecommendAmount()>dtos.get(j).getAmount()){
+                                type=0;
+                            }
+                            // excess(1)
+                            else if(userGroupNutrients.get(i).getMaximumAmount()<dtos.get(j).getAmount()){
+                                type=1;
+                            }else{
+                                type=-1;
+                            }
+                            break;
+                        case 5:
+                            if(userGroupNutrients.get(i).getMaximumAmount()<dtos.get(j).getAmount()){
+                                type=1;
+                            }else{
+                                type=-1;
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), dtos.get(j), type));
                     break;
                 }
                 if(j==dtos.size()-1){
-                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), temp));
+                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), temp, -1));
                 }
             }
         }
