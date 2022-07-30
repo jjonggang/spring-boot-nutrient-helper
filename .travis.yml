@@ -1,10 +1,10 @@
 language: java
 jdk:
-  - openjdk11
+  - oraclejdk11
 
 branches:
   only:
-    -master
+    - main
 
 # Travis CI 서버의 Home
 cache:
@@ -17,4 +17,4 @@ script: "./gradlew clean build"
 notifications:
   email:
     recipients:
-      - "pek2234@icloud.com"
+      - pek2234@icloud.com
