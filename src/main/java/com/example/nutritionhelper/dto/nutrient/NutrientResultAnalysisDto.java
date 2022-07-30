@@ -24,9 +24,21 @@ public class NutrientResultAnalysisDto {
     // 초과 여부
     int type;
 
-    public NutrientResultAnalysisDto(UserGroupNutrient userGroupNutrient
-            , NutrientAnalysisDto nutrientAnalysisDto
-            , int type){
+    Float averageGaugeNum;
+    Float recommendGaugeNum;
+    Float enoughGaugeNum;
+    Float maximumGaugeNum;
+    Float amountGaugeNum;
+
+
+    public NutrientResultAnalysisDto(UserGroupNutrient userGroupNutrient,
+                                     NutrientAnalysisDto nutrientAnalysisDto,
+                                     int type,
+                                     Float averageGaugeNum,
+                                     Float recommendGaugeNum,
+                                     Float enoughGaugeNum,
+                                     Float maximumGaugeNum,
+                                     Float amountGaugeNum){
         this.nutrient = userGroupNutrient.getNutrient();
         this.averageAmount = userGroupNutrient.getAverageAmount();
         this.recommendAmount = userGroupNutrient.getRecommendAmount();
@@ -34,6 +46,12 @@ public class NutrientResultAnalysisDto {
         this.maximumAmount = userGroupNutrient.getMaximumAmount();
         this.amount = nutrientAnalysisDto.getAmount();
         this.type = type;
+        this.averageGaugeNum = averageGaugeNum;
+        this.recommendGaugeNum = recommendGaugeNum;
+        this.enoughGaugeNum = enoughGaugeNum;
+        this.maximumGaugeNum = maximumGaugeNum;
+        this.amountGaugeNum = amountGaugeNum;
+
     }
     public NutrientResultAnalysisDto(UserGroupNutrient userGroupNutrient
             , NutrientAnalysisDto nutrientAnalysisDto){

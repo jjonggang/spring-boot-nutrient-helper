@@ -146,6 +146,11 @@ public class UserGroupNutrientService {
         List<NutrientResultAnalysisDto> result = new ArrayList<>();
         NutrientAnalysisDto temp = null;
         for(int i=0;i<userGroupNutrients.size();i++){
+            Float averageGaugeNum = null;
+            Float recommendGaugeNum = null;
+            Float enoughGaugeNum = null;
+            Float maximumGaugeNum = null;
+            Float amountGaugeNum = null;
             for(int j=0;j<dtos.size();j++){
                 if(userGroupNutrients.get(i).getNutrient().getNutrientId().equals(dtos.get(j).getNutrientId())){
                     log.info("결과 분석1");
@@ -155,30 +160,44 @@ public class UserGroupNutrientService {
                     // ENG
                     if(userGroupNutrients.get(i).getAverageAmount()!=null&&userGroupNutrients.get(i).getRecommendAmount()==null&&userGroupNutrients.get(i).getEnoughAmount()==null
                             &&userGroupNutrients.get(i).getMaximumAmount()==null){
+                        averageGaugeNum = 1F;
+                        amountGaugeNum = dtos.get(j).getAmount()/userGroupNutrients.get(i).getAverageAmount();
                         n=1;
                     }
                     // 2. average, recommend만 존재하는 경우
                     // recommend보다 적으면 deficiency(0), 많으면 excess(1)
                     else if(userGroupNutrients.get(i).getAverageAmount()!=null&&userGroupNutrients.get(i).getRecommendAmount()!=null&&userGroupNutrients.get(i).getEnoughAmount()==null
                             &&userGroupNutrients.get(i).getMaximumAmount()==null){
+                        averageGaugeNum = userGroupNutrients.get(i).getAverageAmount()/userGroupNutrients.get(i).getRecommendAmount();
+                        recommendGaugeNum = 1F;
+                        amountGaugeNum = dtos.get(j).getAmount()/userGroupNutrients.get(i).getRecommendAmount();
                         n=2;
                     }
                     // 3. enough만 존재하는 경우
                     // enough 넘으면 많으면 excess(1)
                     else if(userGroupNutrients.get(i).getAverageAmount()==null&&userGroupNutrients.get(i).getRecommendAmount()==null&&userGroupNutrients.get(i).getEnoughAmount()!=null
                             &&userGroupNutrients.get(i).getMaximumAmount()==null){
+                        enoughGaugeNum = 1F;
+                        amountGaugeNum = dtos.get(j).getAmount()/userGroupNutrients.get(i).getEnoughAmount();
                         n=3;
                     }
                     // 4. average, recommend, maximum만 존재하는 경우
                     // recommend보다 적으면 deficiency(0), maximum보다 많으면 excess(1)
                     else if(userGroupNutrients.get(i).getAverageAmount()!=null&&userGroupNutrients.get(i).getRecommendAmount()!=null&&userGroupNutrients.get(i).getEnoughAmount()==null
                             &&userGroupNutrients.get(i).getMaximumAmount()!=null){
+                        averageGaugeNum = userGroupNutrients.get(i).getAverageAmount()/userGroupNutrients.get(i).getMaximumAmount();
+                        recommendGaugeNum = userGroupNutrients.get(i).getRecommendAmount()/userGroupNutrients.get(i).getMaximumAmount();
+                        maximumGaugeNum = 1F;
+                        amountGaugeNum = dtos.get(j).getAmount()/userGroupNutrients.get(i).getMaximumAmount();
                         n=4;
                     }
                     // 5. enough, maximum만 존재하는 경우
                     // maximum보다 많으면 excess(1)
                     else if(userGroupNutrients.get(i).getAverageAmount()==null&&userGroupNutrients.get(i).getRecommendAmount()==null&&userGroupNutrients.get(i).getEnoughAmount()!=null
                             &&userGroupNutrients.get(i).getMaximumAmount()!=null){
+                        enoughGaugeNum = userGroupNutrients.get(i).getEnoughAmount()/userGroupNutrients.get(i).getMaximumAmount();
+                        maximumGaugeNum = 1F;
+                        amountGaugeNum = dtos.get(j).getAmount()/userGroupNutrients.get(i).getMaximumAmount();
                         n=5;
                     }
 
@@ -229,11 +248,21 @@ public class UserGroupNutrientService {
                         default:
                             break;
                     }
-                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), dtos.get(j), type));
+                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), dtos.get(j), type,
+                            averageGaugeNum,
+                            recommendGaugeNum,
+                            enoughGaugeNum,
+                            maximumGaugeNum,
+                            amountGaugeNum));
                     break;
                 }
                 if(j==dtos.size()-1){
-                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), temp, -1));
+                    result.add(new NutrientResultAnalysisDto(userGroupNutrients.get(i), temp, -1,
+                            averageGaugeNum,
+                            recommendGaugeNum,
+                            enoughGaugeNum,
+                            maximumGaugeNum,
+                            amountGaugeNum));
                 }
             }
         }
